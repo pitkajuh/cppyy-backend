@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-from __future__ import print_function
+#!/usr/bin/env python3
 
 import contextlib
 import os
@@ -7,11 +6,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-
-try:
-    import urllib2
-except ModuleNotFoundError:
-    import urllib.request as urllib2  # p3
+import urllib.request as urllib2
 
 if 'win32' in sys.platform:
     def rename(f1, f2):
@@ -52,10 +47,7 @@ addr = 'https://root.cern.ch/download/'+fn
 if not os.path.exists(os.path.join(TARBALL_CACHE_DIR, fn)):
     try:
         print('retrieving', fn)
-        if sys.hexversion < 0x3000000:
-            output_fn = fn
-        else:
-            output_fn = bytes(fn, 'utf-8')
+        output_fn = bytes(fn, 'utf-8')
         with contextlib.closing(urllib2.urlopen(addr, output_fn)) as resp:
             with open(os.path.join(TARBALL_CACHE_DIR, fn), 'wb') as out:
                 shutil.copyfileobj(resp, out)
